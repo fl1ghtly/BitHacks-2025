@@ -1,8 +1,11 @@
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 #include <Arduino.h>
 
 const int vrx = 4;
 const int vry = 5;
 const int sw = 6;
+
 
 void ControllerInit() {
     pinMode(vrx, INPUT);
@@ -31,5 +34,6 @@ void ControllerLoop() {
     Serial.print("Button State:");
     Serial.println(buttonState);
     delay(500);
-}
+};
 
+#endif // CONTROLLER_H
