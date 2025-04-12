@@ -15,10 +15,8 @@ void ControllerLoop() {
     float y = analogRead(vry);
     int buttonState = digitalRead(sw);
 
-
-
     //normalize the values to -1 to 1 range (original values 0 to 4095) and set max value of 1
-    float x_normalized = (x - 2048) / 2048.0 + 0.4; //with offset of 0.35
+    float x_normalized = (x - 2048) / 2048.0 + 0.32; //with offset of 0.35
     float y_normalized =  (y - 2048) / 2048.0 - 0.4; //with offset of 0.4
 
     x_normalized = constrain(x_normalized, -1.0, 1.0); // constrain to -1 to 1 range

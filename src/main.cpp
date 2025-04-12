@@ -7,6 +7,7 @@
 #include "TouchScreen.h"
 #include "Controller.h"
 #include "Audio.h"
+#include "GetMACAddress.h"
 
 
 void setup(void)
@@ -14,10 +15,12 @@ void setup(void)
     Serial.begin(115200); //Initialize with baud rate of 115200
     Serial.println("Starting...");
     ControllerInit(); //Initialize controller pins
+    macInit(); //Initialize MAC Address
 }
 
 void loop()
 {
     ControllerLoop(); //Read controller values and print them to serial monitor
+    macLoop(); //Read MAC Address and print it to serial monitor
     delay(1000); //Delay to prevent overload serial monitor
 }
