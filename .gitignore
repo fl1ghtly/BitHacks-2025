@@ -43,3 +43,10 @@ build/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# PlatformIO
+.pioenvs
+.piolibdeps
+.clang_complete
+.gcc-flags.json
+.pio
