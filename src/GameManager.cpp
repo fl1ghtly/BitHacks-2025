@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "GameManager.h"
 
 GameManager::GameManager()

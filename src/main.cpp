@@ -41,7 +41,7 @@ void setup(void)
     gm = new GameManager();
     gm->initializeGame();
     
-    start = millis();    Serial.begin(115200); //Initialize with baud rate of 115200
+    start = millis();
 }
 
 void loop()
