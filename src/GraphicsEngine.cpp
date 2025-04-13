@@ -1,7 +1,9 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1327.h>
 #include <ArduinoEigen.h>
+#include "GraphicsEngine.h"
 
+using namespace Graphics;
 using Eigen::Matrix3f;
 
 void drawPlayer(float x, float y, float angle, Adafruit_SSD1327* display)
@@ -20,7 +22,7 @@ void drawPlayer(float x, float y, float angle, Adafruit_SSD1327* display)
     display->drawTriangle(0, 40, -40, -40, 40, -40, SSD1327_WHITE);
 }
 
-void drawEnemy()
+void Graphics::drawEnemy(float x, float y, float z, Adafruit_SSD1327* display)
 {
-    
+    display->drawCircle(x * display->width(), y * display->height(), z * drawDistance, SSD1327_WHITE);
 }
