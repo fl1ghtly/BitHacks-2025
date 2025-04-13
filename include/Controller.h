@@ -1,10 +1,12 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 #include <Arduino.h>
+const int vrx = 15;
+const int vry = 16;
+const int sw = 17;
+const int deadzoneLow = 1000; // lower bound of deadzone
+const int deadzoneHigh = 3000; // upper bound of deadzone
 
-const int vrx = 4;
-const int vry = 5;
-const int sw = 6;
 
 
 void ControllerInit() {
@@ -14,22 +16,36 @@ void ControllerInit() {
 }
 
 void ControllerLoop() {
-    float x = analogRead(vrx);
-    float y = analogRead(vry);
+    //Read joystick values (0 to 4095)
+    int x = analogRead(vrx);
+    int y = analogRead(vry);
     int buttonState = digitalRead(sw);
-
-    //normalize the values to -1 to 1 range (original values 0 to 4095) and set max value of 1
-    float x_normalized = (x - 2048) / 2048.0 + 0.32; //with offset of 0.35
-    float y_normalized =  (y - 2048) / 2048.0 - 0.4; //with offset of 0.4
-
-    x_normalized = constrain(x_normalized, -1.0, 1.0); // constrain to -1 to 1 range
-    y_normalized = constrain(y_normalized, -1.0, 1.0); // constrain to -1 to 1 range
-
+    int yValue;
+    int xValue;
+    //normalize the values to -1 to 1 range (really just -1, 0, and 1)
+    //if the value is in the deadzone, set it to 0
+    x += 1000;
+    if (x < 1615){
+        x = -1;
+    } else if (x > 4000) {
+        x = 1;
+    } else {
+        x = 0;
+    }
+    
+    if(y < 1000) {
+        y = -1;
+    } else if (y > 3800) {
+        y = 1;
+    } else {
+        y = 0;
+    }
+    
     Serial.print("X Value: ");
-    Serial.println(x_normalized); // normalize to -1 to 1 range
+    Serial.println(x); // normalize to -1 to 1 range
     Serial.println(" ");
     Serial.print("Y Value: ");
-    Serial.println(y_normalized); //normalize to -1 to 1 range
+    Serial.println(y); //normalize to -1 to 1 range
     Serial.println(" ");
     Serial.print("Button State:");
     Serial.println(buttonState);
