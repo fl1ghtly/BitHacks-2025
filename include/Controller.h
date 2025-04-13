@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 #include <Arduino.h>
-const int vrx = 15;
-const int vry = 16;
-const int sw = 17;
+const int vrx = 4;
+const int vry = 5;
+const int sw = 6;
 const int deadzoneLow = 1000; // lower bound of deadzone
 const int deadzoneHigh = 3000; // upper bound of deadzone
 
@@ -24,15 +24,18 @@ void ControllerLoop() {
     int xValue;
     //normalize the values to -1 to 1 range (really just -1, 0, and 1)
     //if the value is in the deadzone, set it to 0
-    x += 1000;
-    if (x < 1615){
+    
+    
+    int raw_x = x;
+    if (x < 900){
         x = -1;
     } else if (x > 4000) {
         x = 1;
     } else {
         x = 0;
     }
-    
+
+    int raw_y = y;
     if(y < 1000) {
         y = -1;
     } else if (y > 3800) {
@@ -40,7 +43,12 @@ void ControllerLoop() {
     } else {
         y = 0;
     }
-    
+
+    Serial.print("Raw X Value: ");
+    Serial.println(raw_x);
+    Serial.println(" ");
+    Serial.print("Raw Y Value: ");
+    Serial.println(raw_y);
     Serial.print("X Value: ");
     Serial.println(x); // normalize to -1 to 1 range
     Serial.println(" ");
@@ -49,7 +57,7 @@ void ControllerLoop() {
     Serial.println(" ");
     Serial.print("Button State:");
     Serial.println(buttonState);
-    delay(500);
+    delay(50); //Delay to prevent overload serial monitor
 };
 
 #endif // CONTROLLER_H
