@@ -33,26 +33,30 @@ Star stars[] =
 
 void setup(void)
 {
+
     Serial.begin(9600);
     Serial.println("Starting...");
-    Wire.begin(DISPLAY_SDA, DISPLAY_SCL);
+    
+    // Wire.begin(DISPLAY_SDA, DISPLAY_SCL);
 
     ControllerInit(); //Initialize controller pins
     macInit(); //Initialize MAC Address
 
     // Connect to OLED
-    if (!display.begin(0x3D)) 
+   /* if (!display.begin(0x3D)) 
     {
         Serial.println("Unable to initialize OLED");
         while (1) yield();
     }
-    display.clearDisplay();
-    display.display();
+        */
+    //display.clearDisplay();
+    //display.display();
 
-    gm = new GameManager();
+    /* = new GameManager();
     gm->initializeGame();
     
     start = millis();
+    */
 }
 
 void loop()
