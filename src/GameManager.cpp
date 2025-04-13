@@ -31,8 +31,8 @@ Enemy GameManager::gameLoop(float x, float y)
    
     for (int i = 0; i < 1; i++)
     {
-        e.X += speed * x;
-        e.Y -= speed * y;
+        e.X -= speed * x;
+        e.Y += speed * y;
         e.Z += e.Speed;
 
         if (e.Z > 2.5)
