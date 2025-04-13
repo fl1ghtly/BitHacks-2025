@@ -15,7 +15,6 @@ class GameManager
     public:
         GameManager(Adafruit_SSD1327* display);
         void initializeGame();
-        void handleInput(float x, float y, int sw, float delta);
         Enemy gameLoop(float x, float y);
         void initializeEnemy();
         void resetEnemy();
@@ -28,8 +27,6 @@ class GameManager
         float playerY;
         float playerZ;
         float speed;
-        float angle;
-        int size;
 
         Enemy e;
         // OLED

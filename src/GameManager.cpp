@@ -50,16 +50,3 @@ Enemy GameManager::gameLoop(float x, float y)
 
     return e;
 }
-
-void GameManager::handleInput(float x, float y, int sw, float delta)
-{
-    /*
-    Gets input from Analog Joystick. X and Y are bound between (-1, 1).
-    SW is when the button is pressed.
-    delta is the time between each frame
-    */
-    angle = atan2f(y, x);
-    playerX += speed * x;
-    playerY += speed * y;
-
-}
