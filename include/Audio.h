@@ -1,3 +1,6 @@
+#ifndef AUDIO_H
+#define AUDIO_H
+
 #include <HardwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
 
@@ -51,6 +54,8 @@ void enemyShoots() {
 void enemyHit() {
     player.play(2);
 }
+
+#endif
 
 
 

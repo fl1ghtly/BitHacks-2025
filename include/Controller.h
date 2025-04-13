@@ -7,7 +7,11 @@ const int sw = 6;
 const int deadzoneLow = 1000; // lower bound of deadzone
 const int deadzoneHigh = 3000; // upper bound of deadzone
 
-
+struct Input
+{
+    float x;
+    float y;
+};
 
 void ControllerInit() {
     pinMode(vrx, INPUT);
@@ -15,7 +19,7 @@ void ControllerInit() {
     pinMode(sw, INPUT_PULLUP);
 }
 
-void ControllerLoop() {
+Input ControllerLoop() {
     //Read joystick values (0 to 4095)
     int x = analogRead(vrx);
     int y = analogRead(vry);
@@ -27,7 +31,7 @@ void ControllerLoop() {
     
     
     int raw_x = x;
-    if (x < 900){
+    if (x < 550){
         x = -1;
     } else if (x > 4000) {
         x = 1;
@@ -43,7 +47,7 @@ void ControllerLoop() {
     } else {
         y = 0;
     }
-
+    
     Serial.print("Raw X Value: ");
     Serial.println(raw_x);
     Serial.println(" ");
@@ -57,7 +61,10 @@ void ControllerLoop() {
     Serial.println(" ");
     Serial.print("Button State:");
     Serial.println(buttonState);
-    delay(50); //Delay to prevent overload serial monitor
+    // delay(50); //Delay to prevent overload serial monitor
+    
+    Input input = {x, y};
+    return input;
 };
 
 #endif // CONTROLLER_H

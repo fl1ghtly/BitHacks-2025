@@ -7,7 +7,6 @@ struct Enemy
     float X;
     float Y;
     float Z;
-    float Angle;
     float Speed;
 };
 
@@ -17,7 +16,7 @@ class GameManager
         GameManager(Adafruit_SSD1327* display);
         void initializeGame();
         void handleInput(float x, float y, int sw, float delta);
-        void gameLoop();
+        Enemy gameLoop(float x, float y);
         void initializeEnemy();
         void resetEnemy();
         void loopEnemy();
@@ -32,9 +31,7 @@ class GameManager
         float angle;
         int size;
 
-        //enemy
-        Enemy enemies[5];
-
+        Enemy e;
         // OLED
         Adafruit_SSD1327* display;
     

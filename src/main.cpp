@@ -1,11 +1,9 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <SdFat.h>
 #include <Adafruit_SSD1327.h>
 #include "GameManager.h"
 #include "Controller.h"
 #include "Audio.h"
-#include "GetMACAddress.h"
 
 #include <GraphicsEngine.h>
 
@@ -37,36 +35,34 @@ void setup(void)
     Serial.begin(9600);
     Serial.println("Starting...");
     
-    // Wire.begin(DISPLAY_SDA, DISPLAY_SCL);
+    Wire.begin(DISPLAY_SDA, DISPLAY_SCL);
 
     ControllerInit(); //Initialize controller pins
-    macInit(); //Initialize MAC Address
 
     // Connect to OLED
-   /* if (!display.begin(0x3D)) 
+   if (!display.begin(0x3D)) 
     {
         Serial.println("Unable to initialize OLED");
         while (1) yield();
     }
-        */
-    //display.clearDisplay();
-    //display.display();
+    display.clearDisplay();
+    display.display();
 
-    /* = new GameManager();
+    gm = new GameManager(&display);
     gm->initializeGame();
     
     start = millis();
-    */
 }
 
 void loop()
 {
     delta = end - start; 
-    ControllerLoop(); //Read controller values and print them to serial monitor
-    macLoop(); //Read MAC Address and print it to serial monitor
-    delay(1000); //Delay to prevent overload serial monitor    end = millis();
+    Input input = ControllerLoop(); //Read controller values and print them to serial monitor
     
-    Graphics::drawStars(stars, 0.05, 6.0, &display);
+    Enemy enemy = gm->gameLoop(input.x, input.y);
+
+    Graphics::drawEnemy(enemy.X, enemy.Y, enemy.Z, &display);
+    Graphics::drawStars(stars, 0.01, atan2f(input.y, input.x), &display);
     display.display();
     delay(10);
     display.clearDisplay();

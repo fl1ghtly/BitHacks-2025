@@ -1,12 +1,12 @@
 #include "GameManager.h"
 #include "GraphicsEngine.h"
-#include "Audio.h"
+// #include "Audio.h"
 
 GameManager::GameManager(Adafruit_SSD1327* display)
 {
     // Setup all game variables
     this->lives = 3;    //3 lives
-    this->speed = 1.0;  //default speed
+    this->speed = 0.05;  //default speed
     this->display = display;
 }
 
@@ -18,40 +18,29 @@ void GameManager::initializeGame()
     playerZ = 0;
 
     //adjust game volume here?? might not be needed
-    player.volume(5);
+    // player.volume(5);
 
-    Enemy enemies[5] = {};
-    for (int i = 0; i < 5; i++)
-    {
-        enemies[i] = {(float) random(-1, 1), (float) random(-1, 1), (float) random(0.5, 1), (float) random(0, 6.28), (float) random(-0.1, 0.1)};
-    }
+    this->e = {0.5, 0.5, 0.1, 0.05};
 }
 
-void GameManager::gameLoop()
+Enemy GameManager::gameLoop(float x, float y)
 {
     /* Runs in the microcontroller's loop function.
     Handles any game logic that needs to update continuously such as player and enemy movement
     */ 
    
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 1; i++)
     {
-        Enemy e = enemies[i];
-        e.Angle = atan2f(e.X, e.Z);
-        e.X = e.Speed * sin(e.Angle);
-        e.Z = e.Speed * cos(e.Angle);
+        e.X += speed * x;
+        e.Y -= speed * y;
+        e.Z += e.Speed;
 
-        Graphics::drawEnemy(e.X, e.Y, e.Z, display);
-        // Only do when enemy z < 0.05
-        if (e.Z > 0.05) { continue; }
-        // Check enemy x vs player x
-        // Check enemy y vs player y
-        if (abs(e.X - playerX) < 0.05 || abs(e.Y - playerY) < 0.05)
+        if (e.Z > 2.5)
         {
-            lives--;
+            e.X = 0.5;
+            e.Y = 0.5;
+            e.Z = 0.1;
         }
-
-        Enemy newE = enemies[i] = {(float) random(-1, 1), (float) random(-1, 1), (float) random(0.5, 1), (float) random(0, 6.28), (float) random(-0.1, 0.1)};
-        enemies[i] = newE;
     }
 
     if (lives <= 0)
@@ -59,6 +48,7 @@ void GameManager::gameLoop()
         // do something
     }
 
+    return e;
 }
 
 void GameManager::handleInput(float x, float y, int sw, float delta)
@@ -69,7 +59,7 @@ void GameManager::handleInput(float x, float y, int sw, float delta)
     delta is the time between each frame
     */
     angle = atan2f(y, x);
-    playerX += speed * x * delta;
-    playerY += speed * y * delta;
+    playerX += speed * x;
+    playerY += speed * y;
 
 }
