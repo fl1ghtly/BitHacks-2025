@@ -22,18 +22,27 @@ void Graphics::drawStars(Star stars[], float speed, float moveDirection, Adafrui
     /*
     moveDirection: Direction that the player moves given in radians
     */
-   /*
     for (int i = 0; i < 20; i++)
     {
         stars[i].x += speed * cos(moveDirection);
         stars[i].y += speed * sin(moveDirection);
-        display->drawPixel((int)stars[i].x * display->width() % display->width(), stars[i].y * display->height() % display->height(), SSD1327_WHITE);
-    }
-    */
-    for (int i = 0; i < 20; i++)
-    {
-        stars[i].x += speed * cos(moveDirection);
-        stars[i].y += speed * sin(moveDirection);
+
+        if (stars[i].x > 1.0)
+        {
+            stars[i].x = 0.0;
+        } else if (stars[i].x < 0)
+        {
+            stars[i].x = 1.0;
+        }
+
+        if (stars[i].y > 1.0)
+        {
+            stars[i].y = 0.0;
+        } else if (stars[i].y < 0.0)
+        {
+            stars[i].y = 1.0;
+        }
+
         display->drawPixel(((int) (stars[i].x * display->width())) % display->width(), ((int) (stars[i].y * display->height())) % display->height(), SSD1327_WHITE);
     }
 }
