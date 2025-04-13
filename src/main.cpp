@@ -7,6 +7,8 @@
 #include "Audio.h"
 #include "GetMACAddress.h"
 
+#include <GraphicsEngine.h>
+
 #define OLED_RESET -1
 #define DISPLAY_SDA 9
 #define DISPLAY_SCL 10
@@ -18,6 +20,15 @@ unsigned long start;
 unsigned long end;
 
 GameManager* gm;
+
+Star stars[] = 
+    {
+        {0.8880, 0.4982}, {0.1466, 0.2135}, {0.6841, 0.0398}, {0.3109, 0.4634}, 
+        {0.3457, 0.5412}, {0.8060, 0.9503}, {0.0293, 0.0683}, {0.9516, 0.1083}, 
+        {0.6763, 0.3546}, {0.8652, 0.6534}, {0.5348, 0.8018}, {0.6302, 0.1139}, 
+        {0.2241, 0.8848}, {0.6574, 0.7935}, {0.3153, 0.3270}, {0.0782, 0.4550}, 
+        {0.3807, 0.5363}, {0.5471, 0.3389}, {0.3676, 0.8271}, {0.4419, 0.8068}
+    };
 
 
 void setup(void)
@@ -51,7 +62,10 @@ void loop()
     macLoop(); //Read MAC Address and print it to serial monitor
     delay(1000); //Delay to prevent overload serial monitor    end = millis();
     
-    gm->gameLoop();
+    Graphics::drawStars(stars, 0.05, 6.0, &display);
+    display.display();
+    delay(10);
+    display.clearDisplay();
 
     start = millis();
 }
